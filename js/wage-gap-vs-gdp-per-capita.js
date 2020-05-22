@@ -22,7 +22,7 @@ var vlSpec = {
             "lookup": "primary_key",
             "from": {
                 "data": {
-                    "url": "data/ilo_wage_gap_data.csv"
+                    "url": "data/oecd_gender_pay_gap.csv"
                 },
                 "key": "primary_key",
                 "fields": ["Unadjusted gender wage gap (%)"]
@@ -74,7 +74,8 @@ var vlSpec = {
         "y": {
             "field": "Unadjusted gender wage gap (%)",
             "type": "quantitative",
-            "axis": {"title": "Gender wage gap"}
+            "axis": {"title": "Gender wage gap"},
+            scale: {domain: [0,45]}
         },
         "tooltip": [
                     {
