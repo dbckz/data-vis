@@ -3,170 +3,98 @@ d3.csv("data/world_bank_gdp_per_capita.csv").then(function(data) {
 });
 
 var vlSpec = {
-    $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
-    data: {"url": "data/world_bank_gdp_per_capita.csv"},
-    // mark: 'circle',
-    title: "Wage Gap vs GDP per capita",
-    width: 900,
-    height: 500,
-    transform: [
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {"url": "data/world_bank_gdp_per_capita.csv"},
+    "transform": [
         {
-            lookup: "Country Code",
-            from: {
-                data: {
-                    // url: "data/oecd_gender_pay_gap.csv"
-                    url: "data/ilo_wage_gap_data2.csv"
+            "fold": ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"],
+            "as": ["Year", "GDP_per_capita"]
+        },
+        {
+          "calculate": "year(datum.Year)",
+          "as": "Year"
+        },
+        {
+          "calculate": "datum['Country Code'] + '_' + datum.Year",
+          "as": "primary_key"
+        },
+        {
+            "lookup": "primary_key",
+            "from": {
+                "data": {
+                    "url": "data/ilo_wage_gap_data.csv"
                 },
-                key: "Code",
-                fields: ["Unadjusted gender wage gap (%)"]
+                "key": "primary_key",
+                "fields": ["Unadjusted gender wage gap (%)"]
             }
         },
         {
-            lookup: "Country Code",
-            from: {
-                data: {
-                    url: "data/population_by_country.csv",
-                },
-                key: "Country Code",
-                fields: ["2018_pop"]
+            "filter": {
+                "selection": "select"
             }
         },
         {
-            lookup: "Country Code",
-            from: {
-                data: {
-                    url: "data/world_bank_income_groups.csv",
-                },
-                key: "Code",
-                fields: ["Income classifications (World Bank (2017))"]
-            }
-        },
-        {
-            lookup: "Country Code",
-            from: {
-                data: {
-                    url: "data/labor_force_participation.csv",
-                },
-                key: "Country Code",
-                fields: ["2018_ratio"]
-            }
+            "filter": "datum['Unadjusted gender wage gap (%)'] != ''"
         }
     ],
-    selection: {
-      "Year": {
-          type: "single",
-          fields: "Country Code",
-          bind: {
-              "Country Code": {
-                  input: "range",
-                  min: 2000,
-                  max: 2018,
-                  step: 1
-              }
-          }
-      }  
+    "mark": {
+        "type": "circle",
+        "size": 500
     },
-    layer: [
-        {
-            mark: {
-                   type: "circle",
-                   size: 500
+    "title": "Wage Gap vs GDP per capita",
+    "width": 900,
+    "height": 500,
+    "selection": {
+        "select": {
+            "type": "single",
+            "fields": ["Year"],
+            "init": {
+                "Year": 2010
             },
-            encoding: {
-                x: {
-                    field: '2018',
-                    type: 'quantitative',
-                    axis: {title: '2018 GDP per capita'},
-                    scale: {
-                        type: 'log',
-                        nice: true
-                        // domain: [5000,200000]
+            "bind": {
+                "input": "range",
+                "min": 2000,
+                "max": 2016,
+                "step": 1
+            }
+        }
+    },
+    "encoding": {
+        "x": {
+            "field": "GDP_per_capita",
+            "type": "quantitative",
+            "axis": {"title": "GDP per capita"},
+            scale: {
+                type: 'log',
+                nice: true,
+                domain: [1000,100000]
+            }
+            
+        },
+        "y": {
+            "field": "Unadjusted gender wage gap (%)",
+            "type": "quantitative",
+            "axis": {"title": "Gender wage gap"}
+        },
+        "tooltip": [
+                    {
+                        "field": 'Country Name',
+                        "type": 'nominal',
+                    },
+                    {
+                        "field": 'GDP_per_capita',
+                        "type": 'quantitative'
+                    },
+                    {
+                        "field": 'Unadjusted gender wage gap (%)',
+                        "type": 'quantitative'
                     }
-                },
-                y: {
-                    field: 'Unadjusted gender wage gap (%)',
-                    type: 'quantitative',
-                    axis: {title: 'Latest gender pay gap'}
-                },
-                // size: {
-                //     field: '2018_ratio',
-                //     type: 'quantitative',
-                //     scale: {
-                //         type: 'quantile',
-                //         domain: [40,100]
-                //     }
-                // },
-                color: {
-                    field: "Income classifications (World Bank (2017))",
-                    type: 'nominal',
-                    scale: {
-                        "domain": ["Low income", "Lower-middle income", "Upper-middle income", "High income", "Not categorized"],
-                        "range": ["#f60606", "#f7a3a3", "#81d9de", "#0678ad", "#a2a2a2"]
-                    },
-                    legend: {title: 'Income level'}
-                },
-                
-                tooltip: [
-                    {
-                        field: 'Country Name',
-                        type: 'nominal',
-                    },
-                    {
-                        field: '2018',
-                        type: 'quantitative'
-                    },
-                    {
-                        field: 'Unadjusted gender wage gap (%)',
-                        type: 'quantitative'
-                    },
-                    {
-                        field: '2018_ratio',
-                        type: 'quantitative'
-                    }
-        
                 ],
                 opacity: {value: 0.4}
-            }
-        },
-        {
-            mark: {
-                type: "text",
-                style: "label"
-            },
-            encoding: {
-                x: {
-                    field: '2018',
-                    type: 'quantitative',
-                    axis: {title: '2018 GDP per capita'},
-                    scale: {
-                        type: 'log',
-                        domain: [5000,200000]
-                    }
-                },
-                y: {
-                    field: 'Unadjusted gender wage gap (%)',
-                    type: 'quantitative',
-                    axis: {title: 'Latest gender pay gap'}
-                },
-                // text: {
-                //     field: "Country Name",
-                //     type: "nominal"
-                // }
-            }
-        }
-    ],
-    config: {
-        style: {
-            label: {
-                align: "left",
-                baseline: "bottom",
-                dx: 5,
-                dy: 5
-            }
-        }
     }
-    
-    };
+};
+
+
 
 // Embed the visualization in the container with id `vis`
-vegaEmbed('#vis3', vlSpec);
+vegaEmbed('#vis4', vlSpec);
