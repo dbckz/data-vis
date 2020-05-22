@@ -7,7 +7,7 @@ var vlSpec = {
     data: {"url": "data/world_bank_gdp_per_capita.csv"},
     mark: 'circle',
     title: "Wage Gap vs GDP per capita",
-    width: 1000,
+    width: 900,
     height: 500,
     transform: [
         {
@@ -19,32 +19,57 @@ var vlSpec = {
                 key: "LOCATION",
                 fields: ["Value"]
             }
+        },
+        {
+            lookup: "Country Code",
+            from: {
+                data: {
+                    url: "data/population_by_country.csv",
+                },
+                key: "Country Code",
+                fields: ["2018_pop"]
+            }
+        },
+        {
+            lookup: "Country Code",
+            from: {
+                data: {
+                    url: "data/world_bank_income_groups.csv",
+                },
+                key: "Code",
+                fields: ["Income classifications (World Bank (2017))"]
+            }
         }
     ],
     encoding: {
         x: {
-            field: 'Country Name',
-            type: 'nominal',
-            axis: {title: 'Country'},
-            sort: {
-                field: '2018',
-                order: 'ascending'
+            field: '2018',
+            type: 'quantitative',
+            axis: {title: '2018 GDP per capita'},
+            scale: {
+                type: 'log',
+                domain: [5000,200000]
             }
         },
         y: {
-            field: '2018',
+            field: 'Value',
             type: 'quantitative',
-            axis: {title: '2018 GDP per capita'}
+            axis: {title: 'Latest gender pay gap'}
         },
-        // color: {
-        //     field: 'Classification_of_First_Degree',
-        //     type: 'nominal',
-        //     scale: {
-        //         "domain": ["First", "Upper second", "Lower second", "Third/Pass"],
-        //         "range": ["#c7c7c7", "#e7ba52", "#aec7e8", "#1f77b4"]
-        //     },
-        //     legend: {title: 'Degree Classification'}
-        // },
+        size: {
+            field: '2018_pop',
+            type: 'quantitative',
+            scale: {range: [0, 5000]}
+        },
+        color: {
+            field: "Income classifications (World Bank (2017))",
+            type: 'nominal',
+            scale: {
+                "domain": ["Low income", "Lower-middle income", "Upper-middle income", "High income", "Not categorized"],
+                "range": ["#f60606", "#f7a3a3", "#81d9de", "#0678ad", "#a2a2a2"]
+            },
+            legend: {title: 'Income level'}
+        },
         tooltip: [
             {
                 field: 'Country Name',
@@ -57,9 +82,14 @@ var vlSpec = {
             {
                 field: 'Value',
                 type: 'quantitative'
+            },
+            {
+                field: '2018_pop',
+                type: 'quantitative'
             }
 
-        ]
+        ],
+        opacity: {value: 0.4}
         // order: {
             // field: 'degree_type_ordering',
             // type: 'quantitative',
