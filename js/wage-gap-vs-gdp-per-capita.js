@@ -4,7 +4,7 @@ d3.csv("data/world_bank_gdp_per_capita.csv").then(function(data) {
 
 var vlSpec = {
     "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-    "data": {"url": "https://raw.githubusercontent.com/dbckz/data-vis/master/data/world_bank_gdp_per_capita.csv"},
+    "data": {"url": "data/world_bank_gdp_per_capita.csv"},
     "transform": [
         {
             "fold": ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"],
@@ -22,7 +22,7 @@ var vlSpec = {
             "lookup": "primary_key",
             "from": {
                 "data": {
-                    "url": "https://raw.githubusercontent.com/dbckz/data-vis/master/data/oecd_gender_pay_gap.csv"
+                    "url": "data/oecd_gender_pay_gap.csv"
                 },
                 "key": "primary_key",
                 "fields": ["Unadjusted gender wage gap (%)"]
@@ -32,7 +32,7 @@ var vlSpec = {
             "lookup": "primary_key",
             "from": {
                 "data": {
-                    "url": "https://raw.githubusercontent.com/dbckz/data-vis/master/data/world_bank_income_groups.csv"
+                    "url": "data/world_bank_income_groups.csv"
                 },
                 "key": "primary_key",
                 "fields": ["Income classifications (World Bank (2017))"]
