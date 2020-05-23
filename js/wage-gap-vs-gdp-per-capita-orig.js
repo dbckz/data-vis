@@ -14,10 +14,10 @@ var vlSpec = {
             lookup: "Country Code",
             from: {
                 data: {
-                    // url: "data/oecd_gender_pay_gap.csv"
-                    url: "data/ilo_wage_gap_data2.csv"
+                    url: "data/oecd_gender_pay_gap.csv"
+                    // url: "data/ilo_wage_gap_data2.csv"
                 },
-                key: "Code",
+                key: "LOCATION",
                 fields: ["Unadjusted gender wage gap (%)"]
             }
         },
@@ -96,16 +96,25 @@ var vlSpec = {
                 //         domain: [40,100]
                 //     }
                 // },
+                // color: {
+                //     field: "Income classifications (World Bank (2017))",
+                //     type: 'nominal',
+                //     scale: {
+                //         "domain": ["Low income", "Lower-middle income", "Upper-middle income", "High income", "Not categorized"],
+                //         "range": ["#f60606", "#f7a3a3", "#81d9de", "#0678ad", "#a2a2a2"]
+                //     },
+                //     legend: {title: 'Income level'}
+                // },
                 color: {
-                    field: "Income classifications (World Bank (2017))",
-                    type: 'nominal',
-                    scale: {
-                        "domain": ["Low income", "Lower-middle income", "Upper-middle income", "High income", "Not categorized"],
-                        "range": ["#f60606", "#f7a3a3", "#81d9de", "#0678ad", "#a2a2a2"]
-                    },
-                    legend: {title: 'Income level'}
+                    field: "2018_ratio",
+                    type: 'quantitative',
+                    // scale: {
+                    //     "domain": ["Low income", "Lower-middle income", "Upper-middle income", "High income", "Not categorized"],
+                    //     "range": ["#f60606", "#f7a3a3", "#81d9de", "#0678ad", "#a2a2a2"]
+                    // },
+                    legend: {title: 'Labour Participation Level'},
+                    "scale": {"scheme": "greens"}
                 },
-                
                 tooltip: [
                     {
                         field: 'Country Name',
