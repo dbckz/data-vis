@@ -3,7 +3,7 @@ var vlSpec = {
     data: {"url": "data/oecd_gender_pay_gap2.csv"},
 
     title: {
-        text: "OECD Gender Pay Gap - 2016",
+        text: "OECD Gender Pay Gap - Year by Year",
         fontSize: 20,
         fontWeight: "bold",
         subtitle: "Hover over each gap for further details",
@@ -46,7 +46,7 @@ var vlSpec = {
                     "type": "single",
                     "fields": ["Year"],
                     "init": {
-                        "Year": 2018
+                        "Year": 2016
                     },
                     "bind": {
                         "input": "range",
@@ -138,6 +138,25 @@ var vlSpec = {
                     ],
                     "value": 0
                 }
+            }
+        },
+        {
+            mark: {
+                type: "text",
+                align: "center",
+                baseline: "bottom",
+                fontSize: 16,
+                color: "red",
+                dy: -380,
+                dx: 300
+            },
+            encoding: {
+                text: {
+                    aggregate: "mean",
+                    field: "actual_gap",
+                    type: "quantitative",
+                    format: ".2%"
+                },
             }
         }, 
         {

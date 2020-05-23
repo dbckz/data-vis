@@ -52,8 +52,8 @@ var vlSpec = {
         "size": 500
     },
     "title": "Wage Gap vs GDP per capita",
-    "width": 900,
-    "height": 500,
+    "width": 1500,
+    "height": 600,
     "selection": {
         "select": {
             "type": "single",
@@ -77,7 +77,7 @@ var vlSpec = {
             "scale": {
                "type": "log",
                 "nice": true,
-                "domain": [1000,100000]
+                "domain": [1000,1000000]
             }
             
         },

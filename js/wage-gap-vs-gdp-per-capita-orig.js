@@ -7,8 +7,8 @@ var vlSpec = {
     data: {"url": "data/world_bank_gdp_per_capita.csv"},
     // mark: 'circle',
     title: "Wage Gap vs GDP per capita",
-    width: 900,
-    height: 500,
+    width: 1500,
+    height: 600,
     transform: [
         {
             lookup: "Country Code",
