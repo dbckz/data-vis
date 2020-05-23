@@ -29,6 +29,16 @@ var vlSpec = {
             }
         },
         {
+            "lookup": "primary_key",
+            "from": {
+                "data": {
+                    "url": "data/world_bank_income_groups.csv",
+                },
+                "key": "primary_key",
+                "fields": ["Income classifications (World Bank (2017))"]
+            }
+        },
+        {
             "filter": {
                 "selection": "select"
             }
@@ -64,10 +74,10 @@ var vlSpec = {
             "field": "GDP_per_capita",
             "type": "quantitative",
             "axis": {"title": "GDP per capita"},
-            scale: {
-                type: 'log',
-                nice: true,
-                domain: [1000,100000]
+            "scale": {
+               "type": "log",
+                "nice": true,
+                "domain": [1000,100000]
             }
             
         },
@@ -75,7 +85,16 @@ var vlSpec = {
             "field": "Unadjusted gender wage gap (%)",
             "type": "quantitative",
             "axis": {"title": "Gender wage gap"},
-            scale: {domain: [0,45]}
+            "scale": {"domain": [0,45]}
+        },
+        "color": {
+            "field": "Income classifications (World Bank (2017))",
+            "type": 'nominal',
+            "scale": {
+                "domain": ["Low income", "Lower-middle income", "Upper-middle income", "High income", "Not categorized"],
+                "range": ["#f60606", "#f7a3a3", "#81d9de", "#0678ad", "#a2a2a2"]
+            },
+            "legend": {"title": "Income level"}
         },
         "tooltip": [
                     {
@@ -91,7 +110,7 @@ var vlSpec = {
                         "type": 'quantitative'
                     }
                 ],
-                opacity: {value: 0.4}
+                "opacity": {"value": 0.4}
     }
 };
 
